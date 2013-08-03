@@ -238,6 +238,19 @@ class Agent
 	}
 
 	/**
+	 * Get a single browser property
+	 *
+	 * @param  mixed  $property
+	 *
+	 * @return	mixed
+	 */
+	public function getProperty($property = null)
+	{
+		return $property === null ? $this->getProperties() : $this->{$property};
+	}
+
+
+	/**
 	 * Get all browser properties
 	 *
 	 * @return	array
@@ -304,7 +317,7 @@ class Agent
 	 *
 	 * @return	array
 	 */
-	public function acceptLanguages()
+	public function getAcceptLanguages()
 	{
 		return explode(',', preg_replace('/(;q=[0-9\.]+)/i', '', strtolower(trim($this->server['http_accept_language']))));
 	}
@@ -316,7 +329,7 @@ class Agent
 	 *
 	 * @return	array
 	 */
-	public function acceptCharsets()
+	public function getAcceptCharsets()
 	{
 		return explode(',', preg_replace('/(;q=.+)/i', '', strtolower(trim($this->server['http_accept_charset']))));
 	}
