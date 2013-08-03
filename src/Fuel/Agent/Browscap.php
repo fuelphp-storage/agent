@@ -163,7 +163,7 @@ class Browscap
 	 *
 	 * @var string
 	 */
-	public $userAgent = 'FuelPHP Agent library - Browscap class';
+	public $userAgent = 'FuelPHP Agent library - Browscap class (http://fuelphp.com)';
 
 	/**
 	 * Flag to enable only lowercase indexes in the result.
@@ -204,6 +204,13 @@ class Browscap
 	 * @var string
 	 */
 	public $cacheDir = null;
+
+	/**
+	 * Flag to be set to true to force a rebuild of the cache
+	 *
+	 * @var bool
+	 */
+	public $cacheRebuild = false;
 
 	/**
 	 * Flag to be set to true after loading the cache
@@ -264,14 +271,8 @@ class Browscap
 			$cache = rtrim($this->cacheDir, '\\/').DIRECTORY_SEPARATOR.$this->cacheFilename;
 		}
 
-		// does the cache path exist, and do we have permission to access it?
-		if ( ! $cachePath = realpath($cache))
-		{
-			throw new \InvalidArgumentException('Path "'.$cache.'" is invalid or you don\'t have permission to access it');
-		}
-
 		// do we have a filename, or only a path?
-		if ( ! empty($file = basename($cache)))
+		if ( ! is_dir($cache) and ! empty($file = basename($cache)))
 		{
 			$this->cacheFilename = $file;
 			$this->cacheDir = dirname($cache);
@@ -279,6 +280,11 @@ class Browscap
 		else
 		{
 			$this->cacheDir = $cache;
+		}
+		// does the cache path exist, and do we have permission to access it?
+		if ( ! $this->cacheDir = realpath($this->cacheDir))
+		{
+			throw new \InvalidArgumentException('Path "'.$cache.'" is invalid or you don\'t have permission to access it');
 		}
 
 		$this->cacheDir .= DIRECTORY_SEPARATOR;
@@ -313,7 +319,7 @@ class Browscap
 			}
 
 			// find out if the cache needs to be updated
-			if ( ! file_exists($cacheFile) or ! file_exists($iniFile) or ($interval > $this->updateInterval))
+			if ($this->cacheRebuild or ! file_exists($cacheFile) or ! file_exists($iniFile) or ($interval > $this->updateInterval))
 			{
 				try
 				{
