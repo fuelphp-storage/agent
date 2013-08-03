@@ -140,7 +140,7 @@ class Browscap
 	 *
 	 * @var  bool
 	 */
-	public $doAutoUpdate = true;
+	public $autoUpdate = true;
 
 	/**
 	 * The method to use to update the file, has to be a value of an UPDATE_* constant, null or false
@@ -309,7 +309,7 @@ class Browscap
 			$iniFile = $this->cacheDir . $this->iniFilename;
 
 			// set the interval only if needed
-			if ($this->doAutoUpdate and file_exists($iniFile))
+			if ($this->autoUpdate and file_exists($iniFile))
 			{
 				$interval = time() - filemtime($iniFile);
 			}
