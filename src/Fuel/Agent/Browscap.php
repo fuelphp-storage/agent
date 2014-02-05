@@ -105,14 +105,14 @@ class Browscap
 	 *
 	 * @var  string
 	 */
-	public $remoteIniUrl = 'http://tempdownloads.browserscap.com//stream.asp?BrowsCapINI';
+	public $remoteIniUrl = 'http://browscap.org/stream?q=Lite_PHP_BrowsCapINI';
 
 	/**
 	 * The location to use to check out if a new version of the browscap.ini file is available
 	 *
 	 * @var  string
 	 */
-	public $remoteVerUrl = 'http://tempdownloads.browserscap.com/versions/version-date.php';
+	public $remoteVerUrl = 'http://browscap.org/version';
 
 	/**
 	 * The timeout for browscap download requests
