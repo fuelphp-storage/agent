@@ -16,15 +16,9 @@
 		}
 	],
 	"autoload": {
-		"psr-0": {
-			"Fuel\\Agent": "src"
-		}
+		"psr-4": { "Fuel\\Agent": "src/" }
 	},
 	"require": {
 		"php": ">=5.4"
 	},
-	"require-dev": {
-		"mockery/mockery": "0.7.*"
-	},
-	"minimum-stability": "dev"
 }
