@@ -16,7 +16,7 @@
 		}
 	],
 	"autoload": {
-		"psr-4": { "Fuel\\Agent": "src/" }
+		"psr-4": { "Fuel\\Agent\\": "src/" }
 	},
 	"require": {
 		"php": ">=5.4"
