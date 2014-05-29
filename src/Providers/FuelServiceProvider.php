@@ -38,11 +38,11 @@ class FuelServiceProvider extends ServiceProvider
 			$stack = $this->container->resolve('requeststack');
 			if ($request = $stack->top())
 			{
-				$instance = $request->getApplication()->getConfig();
+				$instance = $request->getComponent()->getConfig();
 			}
 			else
 			{
-				$instance = $this->container->resolve('application.main')->getConfig();
+				$instance = $dic->resolve('application::__main')->getComponent()->getConfig();
 			}
 			$config = \Arr::merge($instance->load('agent', true), $config);
 
