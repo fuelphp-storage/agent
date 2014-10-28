@@ -42,7 +42,7 @@ class FuelServiceProvider extends ServiceProvider
 			}
 			else
 			{
-				$instance = $dic->resolve('application::__main')->getComponent()->getConfig();
+				$instance = $dic->resolve('application::__main')->getRootComponent()->getConfig();
 			}
 			$config = \Arr::merge($instance->load('agent', true), $config);
 
