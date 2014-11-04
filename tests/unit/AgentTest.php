@@ -34,6 +34,9 @@ class AgentTest extends Test
 		$this->agent = new Agent([
 			'http_accept_language' => 'en;q=0.8',
 			'cache_dir'            => Configuration::outputDir(),
+			'browscap'             => [
+				'doAutoUpdate' => false,
+			],
 		]);
 	}
 
@@ -44,11 +47,11 @@ class AgentTest extends Test
 			'cache_dir'            => Configuration::outputDir(),
 			'lowercase'            => true,
 			'browscap'             => [
-				'silent' => true,
+				'doAutoUpdate' => false,
 			],
 		]);
 
-		$this->assertEquals('Chrome', $agent->getBrowser());
+		$this->assertEquals('Chromium', $agent->getBrowser());
 	}
 
 	/**
@@ -61,19 +64,27 @@ class AgentTest extends Test
 
 	/**
 	 * @covers            ::check
-	 * @expcetedException InvalidArgumentException
+	 * @expectedException InvalidArgumentException
 	 */
 	public function testInvalidCheckMethod()
 	{
-		$this->agent->check(null, 'Invalid');
+		$agent = new Agent([
+			'cache_dir'            => Configuration::outputDir(),
+			'lowercase'            => true,
+			'browscap'             => [
+				'doAutoUpdate' => false,
+			],
+		], 'Invalid');
+
+		$agent->check();
 	}
 
 	public function testGetters()
 	{
-		$this->assertEquals('Chrome', $this->agent->getBrowser());
+		$this->assertEquals('Chromium', $this->agent->getBrowser());
 		$this->assertEquals('Linux', $this->agent->getPlatform());
 		$this->assertEquals('37.0', $this->agent->getVersion());
-		$this->assertEquals('Chrome', $this->agent->getProperty('browser'));
+		$this->assertEquals('Chromium', $this->agent->getProperty('browser'));
 		$this->assertEquals($this->agent->getProperties(), $this->agent->getProperty());
 		$this->assertInternalType('array', $this->agent->getProperties());
 		$this->assertFalse($this->agent->isRobot());
