@@ -145,9 +145,9 @@ class Agent
 	 *
 	 * @param string|null $userAgent User agent string to check
 	 *
-	 * @throws InvalidArgumentException If the method passed to the constuctor is invalid
-	 *
 	 * @return boolean True if the check was succesful, false otherwise
+	 *
+	 * @throws InvalidArgumentException If the method passed to the constuctor is invalid
 	 */
 	 public function check($userAgent = null)
 	 {
