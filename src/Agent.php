@@ -10,96 +10,104 @@
 
 namespace Fuel\Agent;
 
+use InvalidArgumentException;
+
 /**
  * Identifies the platform, browser, robot, or mobile device from the user agent string
  *
- * @package  Fuel\Agent
+ * @package Fuel\Agent
  *
- * @since  1.0.0
+ * @since 1.0.0
  */
-
 class Agent
 {
 	/**
-	 * @var  array  default information fields
+	 * Default information fields
+	 *
+	 * @var array
 	 */
-	protected $defaults = array(
-		'browser_name' => 'unknown',
-		'browser_name_regex' => '',
+	protected $defaults = [
+		'browser_name'         => 'unknown',
+		'browser_name_regex'   => '',
 		'browser_name_pattern' => '',
-		'Parent' => '',
-		'Platform' => '',
-		'Comment' => null,
-		'Browser' => null,
-		'Version' => null,
-		'MajorVer' => null,
-		'MinorVer' => null,
-		'Frames' => null,
-		'IFrames' => null,
-		'Tables' => null,
-		'Cookies' => null,
-		'JavaScript' => null,
-		'JavaApplets' => null,
-		'CssVersion' => null,
-		'Platform_Version' => null,
-		'Alpha' => null,
-		'Beta' => null,
-		'Win16' => null,
-		'Win32' => null,
-		'Win64' => null,
-		'BackgroundSounds' => null,
-		'VBScript' =>  null,
-		'ActiveXControls' =>  null,
-		'isMobileDevice' =>  null,
-		'isSyndicationReader' =>  null,
-		'Crawler' =>  null,
-		'AolVersion' =>  null,
-	);
+		'Parent'               => '',
+		'Platform'             => '',
+		'Comment'              => null,
+		'Browser'              => null,
+		'Version'              => null,
+		'MajorVer'             => null,
+		'MinorVer'             => null,
+		'Frames'               => null,
+		'IFrames'              => null,
+		'Tables'               => null,
+		'Cookies'              => null,
+		'JavaScript'           => null,
+		'JavaApplets'          => null,
+		'CssVersion'           => null,
+		'Platform_Version'     => null,
+		'Alpha'                => null,
+		'Beta'                 => null,
+		'Win16'                => null,
+		'Win32'                => null,
+		'Win64'                => null,
+		'BackgroundSounds'     => null,
+		'VBScript'             => null,
+		'ActiveXControls'      => null,
+		'isMobileDevice'       => null,
+		'isSyndicationReader'  => null,
+		'Crawler'              => null,
+		'AolVersion'           => null,
+	];
 
 	/**
-	 * @var  array  information about the current user agent
+	 * Information about the current user agent
+	 *
+	 * @var array
 	 */
-	protected $properties = array(
-	);
-
-
-	/**
-	 * @var  array  config items
-	 */
-	protected $config = array(
-	);
+	protected $properties = [];
 
 	/**
-	 * @var  array  server variables
+	 * @var array
 	 */
-	protected $server = array(
+	protected $config = [];
+
+	/**
+	 * Server variables
+	 *
+	 * @var array
+	 */
+	protected $server = [
 		'http_accept_language' => '',
-		'http_accept_charset' => '',
-		'http_user_agent' => '',
-	);
+		'http_accept_charset'  => '',
+		'http_user_agent'      => '',
+	];
 
 	/**
-	 * @var  string  last used user agent string
+	 * Last used user agent string
+	 *
+	 * @var string
 	 */
 	protected $userAgent = '';
 
 	/**
-	 * @var  string  Method to be used to fetch user agent information
+	 * Method to be used to fetch user agent information
+	 *
+	 * @var string
 	 */
 	protected $method = 'browscap';
 
 	/**
-	 * @var  Browscap  Browscap object
+	 * Browscap object
+	 *
+	 * @var Browscap
 	 */
 	protected $browscap;
 
 	/**
-	 * @param  array   $config  Class configuration array
-	 * @param  string  $method  Method to be used to get user agent details
-	 *
-	 * @throws  InvalidArgumentException if an incorrect method was passed
+	 * @param array  $config Class configuration array
+	 * @param string $method Method to be used to get user agent details
 	 */
-	public function __construct(Array $config = array(), $method = 'browscap')
+	public function __construct(array $config = [], $method = 'browscap')
 	{
 		// fetch server information, from config or global
 		foreach (array_keys($this->server) as $key)
@@ -134,11 +142,11 @@ class Agent
 	/**
 	 * Accept a user agent to check, and try to find a match
 	 *
-	 * @param  string|null  $userAgent  user agent string to check
+	 * @param string|null $userAgent User agent string to check
 	 *
-	 * @throws  InvalidArgumentException  if the method passed to the constuctor is invalid
+	 * @throws InvalidArgumentException If the method passed to the constuctor is invalid
 	 *
-	 * @return  bool  true if the check was succesful, false otherwise
+	 * @return boolean True if the check was succesful, false otherwise
 	 */
 	 public function check($userAgent = null)
 	 {
@@ -161,10 +169,11 @@ class Agent
 					if ($this->browscap = new Browscap($this->config['cacheDir']))
 					{
 						// give the browscap some config
-						if (! empty($this->config['lowercase']))
+						if ( ! empty($this->config['lowercase']))
 						{
 							$this->browscap->lowercase = true;
 						}
+
 						if (isset($this->config['browscap']))
 						{
 							foreach ($this->config['browscap'] as $key => $value)
@@ -175,13 +184,14 @@ class Agent
 								}
 							}
 						}
+
 						$this->properties = array_merge($this->defaults, $this->browscap->getBrowser($this->userAgent, true));
 					}
 				}
 				break;
 
 			default:
-				throw new \InvalidArgumentException('Invalid detection method "'.$this->method.'", can not load browser information.');
+				throw new InvalidArgumentException('Invalid detection method "'.$this->method.'", can not load browser information.');
 		}
 
 		return true;
@@ -190,7 +200,7 @@ class Agent
 	/**
 	 * Get any browser property
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function __get($property)
 	{
@@ -204,13 +214,14 @@ class Agent
 		}
 
 		$property = strtolower($property);
+
 		return array_key_exists($property, $properties) ? $properties[$property] : null;
 	}
 
 	/**
 	 * Get the browser identification string
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getBrowser()
 	{
@@ -220,7 +231,7 @@ class Agent
 	/**
 	 * Get the browser platform
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getPlatform()
 	{
@@ -230,7 +241,7 @@ class Agent
 	/**
 	 * Get the Browser Version
 	 *
-	 * @return	string
+	 * @return string
 	 */
 	public function getVersion()
 	{
@@ -240,9 +251,9 @@ class Agent
 	/**
 	 * Get a single browser property
 	 *
-	 * @param  mixed  $property
+	 * @param mixed $property
 	 *
-	 * @return	mixed
+	 * @return mixed
 	 */
 	public function getProperty($property = null)
 	{
@@ -253,7 +264,7 @@ class Agent
 	/**
 	 * Get all browser properties
 	 *
-	 * @return	array
+	 * @return array
 	 */
 	public function getProperties()
 	{
@@ -263,7 +274,7 @@ class Agent
 	/**
 	 * check if the current browser is a robot or crawler
 	 *
-	 * @return	bool
+	 * @return boolean
 	 */
 	public function isRobot()
 	{
@@ -273,7 +284,7 @@ class Agent
 	/**
 	 * check if the current browser is mobile device
 	 *
-	 * @return	bool
+	 * @return boolean
 	 */
 	public function isMobileDevice()
 	{
@@ -281,9 +292,9 @@ class Agent
 	}
 
 	/**
-	 * alias for isMobileDevice
+	 * Alias for isMobileDevice
 	 *
-	 * @return	bool
+	 * @return boolean
 	 */
 	public function isMobile()
 	{
@@ -291,10 +302,11 @@ class Agent
 	}
 
 	/**
-	 * check if the current browser accepts a specific language
+	 * Check if the current browser accepts a specific language
 	 *
-	 * @param	string $language	optional ISO language code, defaults to 'en'
-	 * @return	bool
+	 * @param string $language optional ISO language code, defaults to 'en'
+	 *
+	 * @return boolean
 	 */
 	public function doesAcceptLanguage($language = 'en')
 	{
@@ -302,10 +314,11 @@ class Agent
 	}
 
 	/**
-	 * check if the current browser accepts a specific character set
+	 * Check if the current browser accepts a specific character set
 	 *
-	 * @param	string $charset	optional character set, defaults to 'utf-8'
-	 * @return	bool
+	 * @param string $charset optional character set, defaults to 'utf-8'
+	 *
+	 * @return boolean
 	 */
 	public function doesAcceptCharset($charset = 'utf-8')
 	{
@@ -313,9 +326,9 @@ class Agent
 	}
 
 	/**
-	 * get the list of browser accepted languages
+	 * Get the list of browser accepted languages
 	 *
-	 * @return	array
+	 * @return array
 	 */
 	public function getAcceptLanguages()
 	{
@@ -325,9 +338,9 @@ class Agent
 	// --------------------------------------------------------------------
 
 	/**
-	 * get the list of browser accepted charactersets
+	 * Get the list of browser accepted charactersets
 	 *
-	 * @return	array
+	 * @return array
 	 */
 	public function getAcceptCharsets()
 	{

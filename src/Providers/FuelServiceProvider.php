@@ -15,16 +15,16 @@ use Fuel\Dependency\ServiceProvider;
 /**
  * FuelPHP ServiceProvider class for this package
  *
- * @package  Fuel\Agent
+ * @package Fuel\Agent
  *
- * @since  1.0.0
+ * @since 1.0.0
  */
 class FuelServiceProvider extends ServiceProvider
 {
 	/**
-	 * @var  array  list of service names provided by this provider
+	 * @var array list of service names provided by this provider
 	 */
-	public $provides = array('agent');
+	public $provides = ['agent'];
 
 	/**
 	 * Service provider definitions
@@ -32,10 +32,11 @@ class FuelServiceProvider extends ServiceProvider
 	public function provide()
 	{
 		// \Fuel\Agent\Agent
-		$this->register('agent', function ($dic, Array $config = array(), $method = 'browscap')
+		$this->register('agent', function ($dic, array $config = [], $method = 'browscap')
 		{
 			// get the agent config
 			$stack = $this->container->resolve('requeststack');
+
 			if ($request = $stack->top())
 			{
 				$instance = $request->getComponent()->getConfig();
@@ -44,9 +45,10 @@ class FuelServiceProvider extends ServiceProvider
 			{
 				$instance = $dic->resolve('application::__main')->getRootComponent()->getConfig();
 			}
+
 			$config = \Arr::merge($instance->load('agent', true), $config);
 
-			return $dic->resolve('Fuel\Agent\Agent', array($config, $method));
+			return $dic->resolve('Fuel\Agent\Agent', [$config, $method]);
 		});
 	}
 }
