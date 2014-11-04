@@ -10,6 +10,7 @@
 
 namespace Fuel\Agent;
 
+use phpbrowscap\Browscap;
 use InvalidArgumentException;
 
 /**

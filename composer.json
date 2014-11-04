@@ -15,7 +15,8 @@
 		}
 	],
 	"require": {
-		"php": ">=5.4"
+		"php": ">=5.4",
+		"browscap/browscap-php": "2.0.4"
 	},
 	"require-dev": {
 		"codeception/codeception": "~2.0.0"
