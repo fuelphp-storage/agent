@@ -1,6 +1,5 @@
 {
 	"name": "fuelphp/agent",
-	"type": "library",
 	"description": "FuelPHP browscap browser agent package",
 	"homepage": "https://github.com/fuelphp/agent",
 	"license": "MIT",
@@ -15,10 +14,15 @@
 			"role" : "Original browscap class author"
 		}
 	],
-	"autoload": {
-		"psr-4": { "Fuel\\Agent\\": "src/" }
-	},
 	"require": {
 		"php": ">=5.4"
+	},
+	"require-dev": {
+		"codeception/codeception": "~2.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Fuel\\Agent\\": "src/"
+		}
 	}
 }
