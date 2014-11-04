@@ -166,7 +166,7 @@ class Agent
 				// create a browscap object if needed?
 				if ( ! $this->browscap)
 				{
-					if ($this->browscap = new Browscap($this->config['cacheDir']))
+					if ($this->browscap = new Browscap($this->config['cache_dir']))
 					{
 						// give the browscap some config
 						if ( ! empty($this->config['lowercase']))
