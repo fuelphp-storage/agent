@@ -7,11 +7,6 @@
 		{
 			"name": "FuelPHP Development Team",
 			"email": "team@fuelphp.com"
-		},
-		{
-			"name": "Jonathan Stoppani",
-			"email": "jonathan@stoppani.name",
-			"role" : "Original browscap class author"
 		}
 	],
 	"require": {
