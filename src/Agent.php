@@ -185,7 +185,15 @@ class Agent
 							}
 						}
 
-						$this->properties = array_merge($this->defaults, $this->browscap->getBrowser($this->userAgent, true));
+						$browscap = $this->browscap->getBrowser($this->userAgent, true);
+
+						// workaround for https://github.com/GaretJax/phpbrowscap/issues/72
+						if ( ! empty($this->config['lowercase']))
+						{
+							$browscap = array_change_key_case($browscap);
+						}
+
+						$this->properties = array_merge($this->defaults, $browscap);
 					}
 				}
 				break;
@@ -310,7 +318,7 @@ class Agent
 	 */
 	public function doesAcceptLanguage($language = 'en')
 	{
-		return (in_array(strtolower($language), $this->acceptLanguages(), true)) ? true : false;
+		return (in_array(strtolower($language), $this->getAcceptLanguages(), true)) ? true : false;
 	}
 
 	/**
@@ -322,7 +330,7 @@ class Agent
 	 */
 	public function doesAcceptCharset($charset = 'utf-8')
 	{
-		return (in_array(strtolower($charset), $this->acceptCharsets(), true)) ? true : false;
+		return (in_array(strtolower($charset), $this->getAcceptCharsets(), true)) ? true : false;
 	}
 
 	/**
