@@ -188,12 +188,6 @@ class Agent
 
 						$browscap = $this->browscap->getBrowser($this->userAgent, true);
 
-						// workaround for https://github.com/GaretJax/phpbrowscap/issues/72
-						if ( ! empty($this->config['lowercase']))
-						{
-							$browscap = array_change_key_case($browscap);
-						}
-
 						$this->properties = array_merge($this->defaults, $browscap);
 					}
 				}
