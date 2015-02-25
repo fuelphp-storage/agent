@@ -4,21 +4,20 @@
  * @version    2.0
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2014 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Agent;
 
 use phpbrowscap\Browscap;
-use InvalidArgumentException;
 
 /**
  * Identifies the platform, browser, robot, or mobile device from the user agent string
  *
  * @package Fuel\Agent
  *
- * @since 1.0.0
+ * @since 1.0
  */
 class Agent
 {
@@ -147,7 +146,7 @@ class Agent
 	 *
 	 * @return boolean True if the check was succesful, false otherwise
 	 *
-	 * @throws InvalidArgumentException If the method passed to the constuctor is invalid
+	 * @throws \InvalidArgumentException If the method passed to the constuctor is invalid
 	 */
 	 public function check($userAgent = null)
 	 {
@@ -194,7 +193,7 @@ class Agent
 				break;
 
 			default:
-				throw new InvalidArgumentException('Invalid detection method "'.$this->method.'", can not load browser information.');
+				throw new \InvalidArgumentException('Invalid detection method "'.$this->method.'", can not load browser information.');
 		}
 
 		return true;

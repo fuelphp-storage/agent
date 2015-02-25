@@ -14,11 +14,16 @@
 		"browscap/browscap-php": "2.0.4"
 	},
 	"require-dev": {
-		"codeception/codeception": "~2.0.0"
+		"codeception/codeception": "~2.0"
 	},
 	"autoload": {
 		"psr-4": {
 			"Fuel\\Agent\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
 		}
 	}
 }

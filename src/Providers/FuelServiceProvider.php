@@ -10,7 +10,8 @@
 
 namespace Fuel\Agent\Providers;
 
-use Fuel\Dependency\ServiceProvider;
+use Fuel\Agent\Agent;
+use League\Container\ServiceProvider;
 
 /**
  * Fuel ServiceProvider class for Agent
@@ -24,31 +25,21 @@ class FuelServiceProvider extends ServiceProvider
 	/**
 	 * @var array
 	 */
-	public $provides = ['agent'];
+	protected $provides = ['agent'];
 
 	/**
-	 * Service provider definitions
+	 * {@inheritdoc}
 	 */
-	public function provide()
+	public function register()
 	{
 		// \Fuel\Agent\Agent
-		$this->register('agent', function ($dic, array $config = [], $method = 'browscap')
+		$this->container->add('agent', function (array $config = [], $method = 'browscap')
 		{
-			// get the agent config
-			$stack = $this->container->resolve('requeststack');
+			$configInstance = $this->container->get('configInstance');
 
-			if ($request = $stack->top())
-			{
-				$instance = $request->getComponent()->getConfig();
-			}
-			else
-			{
-				$instance = $dic->resolve('application::__main')->getRootComponent()->getConfig();
-			}
+			$config = \Arr::merge($configInstance->load('agent', true), $config);
 
-			$config = \Arr::merge($instance->load('agent', true), $config);
-
-			return $dic->resolve('Fuel\Agent\Agent', [$config, $method]);
+			return new Agent($config, $method);
 		});
 	}
 }
